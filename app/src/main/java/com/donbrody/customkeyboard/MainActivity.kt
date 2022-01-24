@@ -2,9 +2,9 @@ package com.donbrody.customkeyboard
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.donbrody.customkeyboard.components.keyboard.CustomKeyboardView
 
 /**
@@ -23,14 +23,20 @@ class MainActivity : AppCompatActivity() {
 
         keyboard = findViewById(R.id.customKeyboardView)
         keyboard.registerEditText(CustomKeyboardView.KeyboardType.NUMBER, numberField)
-        keyboard.registerEditText(CustomKeyboardView.KeyboardType.NUMBER_DECIMAL, numberDecimalField)
+        keyboard.registerEditText(
+            CustomKeyboardView.KeyboardType.NUMBER_DECIMAL,
+            numberDecimalField
+        )
         keyboard.registerEditText(CustomKeyboardView.KeyboardType.QWERTY, qwertyField)
 
         val switchActivitiesButton: Button = findViewById(R.id.switchActivitiesButton)
         switchActivitiesButton.setOnClickListener {
-            startActivity(Intent(
+            startActivity(
+                Intent(
                     this@MainActivity,
-                    AdvancedFeaturesActivity::class.java))
+                    AdvancedFeaturesActivity::class.java
+                )
+            )
         }
     }
 
