@@ -1,4 +1,4 @@
-package com.kiranshaw.customdecimalkeyboard
+package com.kiranshaw.customdecimalkeyboard.components.keyboard
 
 import android.content.Context
 import android.util.AttributeSet
@@ -28,5 +28,9 @@ class CustomisedKeyboardView(context: Context, attr: AttributeSet) :
 
     fun setBtnGapSize(gapSize: Int) { // in Dp
         this.gapSize = gapSize
+    }
+
+    override fun setBackgroundColor(bgColor: Int) {
+        this.bgColor = bgColor
     }
 }
