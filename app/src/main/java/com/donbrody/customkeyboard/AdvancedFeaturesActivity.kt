@@ -2,13 +2,13 @@ package com.donbrody.customkeyboard
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import com.donbrody.customkeyboard.components.keyboard.CustomKeyboardView
-import com.donbrody.customkeyboard.components.textFields.CustomTextField
-import com.donbrody.customkeyboard.components.utilities.ComponentUtils
+import com.kiranshaw.customdecimalkeyboard.components.keyboard.CustomKeyboardView
+import com.kiranshaw.customdecimalkeyboard.components.textFields.CustomTextField
+import com.kiranshaw.customdecimalkeyboard.components.utilities.ComponentUtils
 
 /**
  * Created by Don.Brody on 11/10/18.
