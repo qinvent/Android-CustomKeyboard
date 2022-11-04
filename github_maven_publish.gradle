@@ -8,7 +8,7 @@ def githubUser = localProperties['gpr.usr']
 def githubPassword = localProperties['gpr.key']
 
 def getGroupId = { ->
-    return " com.quantuminventions.customkeyboard" // Replace with group Id
+    return "com.quantuminventions.customkeyboard" // Replace with group Id
 }
 def getVersionName = { ->
     return "${libraryVersion}" // Replace with version Name
@@ -25,7 +25,7 @@ afterEvaluate {
                 groupId getGroupId()
                 artifactId getArtifactId()
                 version getVersionName()
-                artifact("$buildDir/outputs/aar/${getArtifactId()}-release.aar")
+                artifact("$buildDir/outputs/aar/${getArtifactId()}-${getVersionName}-release.aar")
                 //generate .pom file with transitive dependencies
                 pom.withXml {
                     final dependenciesNode = asNode().appendNode('dependencies')
