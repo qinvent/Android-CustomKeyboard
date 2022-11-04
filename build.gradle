@@ -15,7 +15,7 @@ buildscript {
         maven {
             name = "GitHubPackages"
 
-            url = uri("https://maven.pkg.github.com/qinvent/custom-keyboard-android.git")
+            url = uri("https://maven.pkg.github.com/qinvent/custom-keyboard-android")
 
             credentials {
                 username = githubUser
