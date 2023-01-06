@@ -1,0 +1,74 @@
+apply plugin: 'maven-publish'
+
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
+def githubUser = localProperties['gpr.usr']
+def githubPassword = localProperties['gpr.key']
+
+def getGroupId = { ->
+    return "com.quantuminventions.customkeyboard" // Replace with group Id
+}
+def getVersionName = { ->
+    return "${libraryVersion}" // Replace with version Name
+}
+
+def getArtifactId = { ->
+    return "custom-keyboard-android" // Replace with library name ID
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            bar(MavenPublication) {
+                groupId getGroupId()
+                artifactId getArtifactId()
+                version getVersionName()
+                artifact("$buildDir/outputs/aar/${getArtifactId()}-${getVersionName}-release.aar")
+                //generate .pom file with transitive dependencies
+                pom.withXml {
+                    final dependenciesNode = asNode().appendNode('dependencies')
+                    ext.addDependency = { Dependency dep, String scope ->
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                            return
+                        final dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dep.group)
+                        dependencyNode.appendNode('artifactId', dep.name)
+                        dependencyNode.appendNode('version', dep.version)
+                        dependencyNode.appendNode('scope', scope)
+                        if (!dep.transitive) {
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', '*')
+                            exclusionNode.appendNode('artifactId', '*')
+                        } else if (!dep.properties.excludeRules.empty) {
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            dep.properties.excludeRules.each { ExcludeRule rule ->
+                                exclusionNode.appendNode('groupId', rule.group ?: '*')
+                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                            }
+                        }
+                    }
+                    configurations.compile.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                // Configure path of your package repository on Github
+                url = uri("https://maven.pkg.github.com/qinvent/custom-keyboard-android")
+                credentials {
+                    // Set env variable GPR_USER & GPR_API_KEY if not adding a properties file
+
+                    username = githubUser
+                    password = githubPassword
+                }
+            }
+        }
+    }
+}
+

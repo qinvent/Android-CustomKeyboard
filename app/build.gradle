@@ -2,11 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 32
     defaultConfig {
-        applicationId "com.donbrody.customkeyboard"
+        applicationId "com.quantuminventions.customkeyboard.app"
         minSdkVersion 23
         targetSdkVersion 32
         versionCode 1

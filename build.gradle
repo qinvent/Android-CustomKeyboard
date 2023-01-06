@@ -3,9 +3,27 @@
 buildscript {
     ext.kotlin_version = '1.5.31'
     repositories {
+        def localPropertiesFile = rootProject.file("local.properties")
+        def localProperties = new Properties()
+        if (localPropertiesFile.exists()) {
+            localProperties.load(new FileInputStream(localPropertiesFile))
+        }
+        def githubUser = localProperties['gpr.usr']
+        def githubPassword = localProperties['gpr.key']
         google()
         mavenCentral()
+        maven {
+            name = "GitHubPackages"
+
+            url = uri("https://maven.pkg.github.com/qinvent/custom-keyboard-android")
+
+            credentials {
+                username = githubUser
+                password = githubPassword
+            }
+        }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -14,7 +32,7 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
+apply plugin: 'maven-publish'
 allprojects {
     repositories {
         google()
